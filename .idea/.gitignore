@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Игнорировать файл pom.xml
+pom.xml
+
+# Игнорировать директорию .idea и все файлы внутри нее
+.idea/

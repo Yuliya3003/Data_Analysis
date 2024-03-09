@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+
 public class FruitManager {
     public static void main(String[] args) {
         ArrayList<String> words = readTxt("input.txt");
@@ -16,7 +17,7 @@ public class FruitManager {
         }
         System.out.println();
         System.out.println("Частота встречаемости слов: ");
-        TreeMap<String, Integer> fruits = frequencyOfOccurrence(words);
+        HashMap<String, Integer> fruits = frequencyOfOccurrence(words);
         for (Map.Entry<String, Integer> entry : fruits.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
@@ -36,7 +37,7 @@ public class FruitManager {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Ошибка чтения файла: " + e.getMessage());
         }
         return words;
     }
@@ -46,26 +47,23 @@ public class FruitManager {
     }
 
     public static ArrayList<String> findLongestWords(ArrayList<String> list){
-        String longest = list.get(0);
         ArrayList<String> longestWords = new ArrayList<>();
-        Set<String> uniqueWords = new HashSet<>(list);
-        for (String elem:uniqueWords
-             ) {
-            if (longest.length() < elem.length()){
-                longest = elem;
-            }
-        }
-        for (String elem:uniqueWords
-             ) {
-            if (elem.length() == longest.length()){
-                longestWords.add(elem);
+        int maxLength = 0;
+        for (String word : list) {
+            int length = word.length();
+            if (length > maxLength) {
+                maxLength = length;
+                longestWords.clear();
+                longestWords.add(word);
+            } else if (length == maxLength && !longestWords.contains(word)) {
+                longestWords.add(word);
             }
         }
         return longestWords;
     }
 
-    public static TreeMap<String, Integer> frequencyOfOccurrence(ArrayList<String> list){
-        TreeMap<String, Integer> fruitFrequency = new TreeMap<>();
+    public static HashMap<String, Integer> frequencyOfOccurrence(ArrayList<String> list){
+        HashMap<String, Integer> fruitFrequency = new HashMap<>();
         for (String fruit:list
              ) {
             if (fruitFrequency.containsKey(fruit)){
